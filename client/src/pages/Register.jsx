@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../utils/chitchat.avif";
 import Light from "../utils/light.png";
 import Dark from "../utils/dark.avif";
@@ -11,19 +11,33 @@ import { registerRoute } from "../utils/ApiRoutes";
 function Register() {
   const [formData, setFormData] = useState([]);
   const [darkMode, setDarkMode] = useState(true);
+  const toastTheme = darkMode ? "dark" : "light";
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (handleValidation()) {
-      const { data } = await axios.post(registerRoute, {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        confirmPassword: formData.confirmPassword,
-      });
-      console.log(data);
+      try {
+        const { data } = await axios.post(registerRoute, {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        });
+        if (data.status === true) {
+          localStorage.setItem(
+            "User",
+            JSON.stringify(data.newUserWithoutPassword)
+          );
+        } else {
+          console.log("status is not true");
+        }
+        navigate("/");
+      } catch (error) {
+        toast.error(error.response.data, {
+          theme: toastTheme,
+        });
+      }
     }
-    console.log(formData);
   };
 
   const handleChange = (e) => {
@@ -34,7 +48,6 @@ function Register() {
   };
 
   const handleValidation = () => {
-    const toastTheme = darkMode ? "dark" : "light";
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords don't match!!", {
         theme: toastTheme,
