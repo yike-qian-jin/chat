@@ -5,7 +5,6 @@ import Light from "../utils/light.png";
 import Dark from "../utils/dark.avif";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 import { registerRoute } from "../utils/ApiRoutes";
 
 function Register() {
@@ -18,20 +17,18 @@ function Register() {
     e.preventDefault();
     if (handleValidation()) {
       try {
-        const { data } = await axios.post(registerRoute, {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
+        const res = await fetch(registerRoute, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         });
+        const data = await res.json();
         if (data.status === true) {
-          localStorage.setItem(
-            "User",
-            JSON.stringify(data.newUserWithoutPassword)
-          );
-        } else {
-          console.log("status is not true");
+          console.log(data);
         }
-        navigate("/");
+        navigate("/login");
       } catch (error) {
         toast.error(error.response.data, {
           theme: toastTheme,
