@@ -3,6 +3,7 @@ import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from "./components/PrivateRoute";
+import SetAvatar from "./pages/SetAvatar";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/setAvatar" element={<SetAvatar />} />
       </Routes>
     </BrowserRouter>
   );

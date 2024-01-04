@@ -6,12 +6,16 @@ import Dark from "../utils/dark.avif";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerRoute } from "../utils/ApiRoutes";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../redux/theme/themeSlice";
 
 function Register() {
   const [formData, setFormData] = useState([]);
-  const [darkMode, setDarkMode] = useState(true);
+  const { darkMode } = useSelector((state) => state.theme);
   const toastTheme = darkMode ? "dark" : "light";
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  console.log(darkMode);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,13 +82,13 @@ function Register() {
       <div className="flex gap-2 justify-end">
         <img
           className="h-10 w-10 object-cover rounded-full cursor-pointer"
-          onClick={() => setDarkMode(true)}
+          onClick={() => dispatch(toggleTheme(true))}
           src={Dark}
           alt=""
         />
         <img
           className="h-10 w-10 object-cover rounded-full cursor-pointer"
-          onClick={() => setDarkMode(false)}
+          onClick={() => dispatch(toggleTheme(false))}
           src={Light}
           alt=""
         />
