@@ -11,10 +11,10 @@ function App() {
       <Routes>
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<Chat />} />
+          <Route path="/setAvatar" element={<SetAvatar />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/setAvatar" element={<SetAvatar />} />
       </Routes>
     </BrowserRouter>
   );

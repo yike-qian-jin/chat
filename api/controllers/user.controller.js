@@ -2,10 +2,6 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 
-export const test = async (req, res, next) => {
-    res.json({ message: "test" })
-}
-
 
 export const register = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -34,6 +30,21 @@ export const login = async (req, res, next) => {
         if (!validPassword) return next(errorHandler(401, "wrong credentials"));
         const { password: pass, ...UserWithoutPassword } = validUser._doc;
         res.status(200).json(UserWithoutPassword);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+export const setAvatar = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        const avatar = req.body.avatar;
+        const userData = await User.findByIdAndUpdate(userId, {
+            isAvatarImageSet: true,
+            avatar,
+        });
+        return res.status(201).json({ isSet: userData.isAvatarImageSet, avatar: userData.avatar })
     } catch (error) {
         next(error);
     }

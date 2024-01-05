@@ -6,16 +6,24 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-    "username" : "aaaaaaa",
+    "username" : "ahmed",
     "email" : "ahmed@gmail.com",
     "password": "123456"
 }
 
-###
+### 
 POST http://localhost:3000/api/auth/login 
 Content-Type: application/json
 
 {
     "email" : "ahmed@gmail.com",
     "password": "123456"
+}
+
+###
+POST http://localhost:3000/api/auth/setAvatar/659863004a08cf938ae8b95c
+Content-Type: application/json
+
+{
+    "avatar" : ""
 }

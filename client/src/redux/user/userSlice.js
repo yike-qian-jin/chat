@@ -10,10 +10,14 @@ export const userSlice = createSlice({
     reducers: {
         signIn: (state, action) => {
             state.currentUser = action.payload;
-        }
+        },
+        updateUser: (state, action) => {
+            state.currentUser.avatar = action.payload.avatar;
+            state.currentUser.isAvatarImageSet = true;
+        },
     },
 })
 
-export const { signIn } = userSlice.actions
+export const { signIn, updateUser } = userSlice.actions
 
 export default userSlice.reducer

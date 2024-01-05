@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../utils/chitchat.avif";
-import Light from "../utils/light.png";
-import Dark from "../utils/dark.avif";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRoute } from "../utils/ApiRoutes";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../redux/user/userSlice";
-import { toggleTheme } from "../redux/theme/themeSlice";
+import DarkMode from "../components/DarkMode";
 
 function Login() {
   const [formData, setFormData] = useState([]);
@@ -36,7 +34,7 @@ function Login() {
           return;
         }
         dispatch(signIn(data));
-        navigate("/");
+        navigate("/setAvatar");
       } catch (error) {
         console.log(error);
       }
@@ -64,20 +62,7 @@ function Login() {
     <div
       className={`p-3 ${darkMode ? "bg-zinc-900" : "bg-white"} min-h-screen`}
     >
-      <div className="flex gap-2 justify-end">
-        <img
-          className="h-10 w-10 object-cover rounded-full cursor-pointer"
-          onClick={() => dispatch(toggleTheme(true))}
-          src={Dark}
-          alt=""
-        />
-        <img
-          className="h-10 w-10 object-cover rounded-full cursor-pointer"
-          onClick={() => dispatch(toggleTheme(false))}
-          src={Light}
-          alt=""
-        />
-      </div>
+      <DarkMode />
       <div className="flex items-center justify-center my-7 gap-4">
         <img
           className="h-24 w-24 object-cover rounded-full"

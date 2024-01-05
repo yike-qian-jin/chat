@@ -1,21 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../utils/chitchat.avif";
-import Light from "../utils/light.png";
-import Dark from "../utils/dark.avif";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerRoute } from "../utils/ApiRoutes";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleTheme } from "../redux/theme/themeSlice";
+import { useSelector } from "react-redux";
+import DarkMode from "../components/DarkMode";
 
 function Register() {
   const [formData, setFormData] = useState([]);
   const { darkMode } = useSelector((state) => state.theme);
   const toastTheme = darkMode ? "dark" : "light";
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  console.log(darkMode);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,20 +75,7 @@ function Register() {
     <div
       className={`p-3 ${darkMode ? "bg-zinc-900" : "bg-white"} min-h-screen`}
     >
-      <div className="flex gap-2 justify-end">
-        <img
-          className="h-10 w-10 object-cover rounded-full cursor-pointer"
-          onClick={() => dispatch(toggleTheme(true))}
-          src={Dark}
-          alt=""
-        />
-        <img
-          className="h-10 w-10 object-cover rounded-full cursor-pointer"
-          onClick={() => dispatch(toggleTheme(false))}
-          src={Light}
-          alt=""
-        />
-      </div>
+      <DarkMode />
       <div className="flex items-center justify-center my-7 gap-4">
         <img
           className="h-24 w-24 object-cover rounded-full"
