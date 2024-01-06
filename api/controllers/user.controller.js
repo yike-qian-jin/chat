@@ -49,3 +49,18 @@ export const setAvatar = async (req, res, next) => {
         next(error);
     }
 }
+
+
+export const getAllUsers = async (req, res, next) => {
+    try {
+        const allUsers = await User.find({ _id: { $ne: req.params.id } }).select([
+            "email",
+            "username",
+            "avatar",
+            "_id"
+        ])
+        return res.status(201).json(allUsers);
+    } catch (error) {
+        next(error);
+    }
+}

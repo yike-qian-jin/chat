@@ -20,10 +20,13 @@ Content-Type: application/json
     "password": "123456"
 }
 
-###
+###set avatar
 POST http://localhost:3000/api/auth/setAvatar/659863004a08cf938ae8b95c
 Content-Type: application/json
 
 {
     "avatar" : ""
 }
+
+### get all users
+GET http://localhost:3000/api/auth/allUsers/659873bea1331a04dd331148
