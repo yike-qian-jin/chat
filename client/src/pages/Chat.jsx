@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import { allUsersRoute } from "../utils/ApiRoutes";
 import { useNavigate } from "react-router-dom";
 import DarkMode from "../components/DarkMode";
+import Logo from "../utils/chitchat.avif";
+import Welcome from "../components/Welcome";
+import ChatContainer from "../components/ChatContainer";
 
 function Chat() {
   const [contacts, setContacts] = useState([]);
@@ -30,6 +33,14 @@ function Chat() {
   return (
     <div className={`min-h-screen ${darkMode ? "bg-zinc-900" : "bg-white"}`}>
       <DarkMode />
+      <div className="flex items-center justify-center gap-4">
+        <img
+          src={Logo}
+          alt=""
+          className="h-20 w-20 object-cover rounded-full"
+        />
+        <h3 className={`${darkMode && "text-white"}`}>Chat</h3>
+      </div>
       <div
         className={`max-w-4xl mx-auto mt-6 flex rounded-md p-2 ${
           darkMode ? "bg-zinc-800" : "bg-slate-100"
@@ -41,7 +52,11 @@ function Chat() {
           darkMode={darkMode}
           changeChat={handleChatChange}
         />
-        <div>kgldflgldfgl</div>
+        {currentChat === undefined ? (
+          <Welcome currentUser={currentUser} darkMode={darkMode} />
+        ) : (
+          <ChatContainer currentChat={currentChat} darkMode={darkMode} />
+        )}
       </div>
     </div>
   );

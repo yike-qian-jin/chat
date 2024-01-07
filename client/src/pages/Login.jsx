@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../utils/chitchat.avif";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,6 +14,13 @@ function Login() {
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state) => state.theme);
   const toastTheme = darkMode ? "dark" : "light";
+  const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +41,11 @@ function Login() {
           return;
         }
         dispatch(signIn(data));
-        navigate("/setAvatar");
+        if (currentUser.avatar.length > 0) {
+          navigate("/");
+        } else {
+          navigate("/setAvatar");
+        }
       } catch (error) {
         console.log(error);
       }

@@ -41,6 +41,9 @@ function SetAvatar() {
   };
 
   useEffect(() => {
+    if (currentUser.avatar.length > 0) {
+      navigate("/");
+    }
     fetchData();
   }, []);
 

@@ -15,9 +15,12 @@ export const userSlice = createSlice({
             state.currentUser.avatar = action.payload.avatar;
             state.currentUser.isAvatarImageSet = true;
         },
+        logout: (state) => {
+            state.currentUser = null;
+        }
     },
 })
 
-export const { signIn, updateUser } = userSlice.actions
+export const { signIn, updateUser, logout } = userSlice.actions
 
 export default userSlice.reducer

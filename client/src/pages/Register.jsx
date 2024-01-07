@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../utils/chitchat.avif";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,14 @@ function Register() {
   const [formData, setFormData] = useState([]);
   const { darkMode } = useSelector((state) => state.theme);
   const toastTheme = darkMode ? "dark" : "light";
+  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
