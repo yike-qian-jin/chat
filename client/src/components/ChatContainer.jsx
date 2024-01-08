@@ -1,6 +1,12 @@
 import PropTypes from "prop-types";
+import ChatInput from "./ChatInput";
+import Messages from "./Messages";
 
 function ChatContainer({ currentChat, darkMode }) {
+  const handleSendMessage = async (msg) => {
+    console.log(msg);
+  };
+
   return (
     <main
       className={`flex-1 rounded-lg mx-6 ${
@@ -23,8 +29,10 @@ function ChatContainer({ currentChat, darkMode }) {
           <h3>{currentChat.username}</h3>
         </div>
       </div>
-      <div></div>
-      <div></div>
+      <div className="flex flex-col">
+        <Messages />
+        <ChatInput handleSendMessage={handleSendMessage} darkMode={darkMode} />
+      </div>
     </main>
   );
 }

@@ -33,12 +33,12 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
     <>
       {currentUsername && currentUserAvatar && (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col overflow-auto gap-2 max-h-[400px]">
+          <div className="flex flex-row sm:flex-col overflow-auto gap-2 max-h-[400px] flex-wrap">
             {contacts.map((contact, index) => {
               return (
                 <div
                   key={index}
-                  className={`flex flex-col sm:flex-row items-center rounded-lg cursor-pointer ${
+                  className={`flex flex-row sm:flex-col items-center rounded-lg cursor-pointer max-w-[200px] ${
                     darkMode ? "bg-zinc-700" : "bg-slate-300"
                   } ${
                     index === currentSelected &&
@@ -48,7 +48,7 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
                 >
                   <div>
                     <img
-                      className="h-20 w-20 p-1"
+                      className="h-10 w-10 sm:h-20 sm:w-20 p-1"
                       src={`data:image/svg+xml;base64,${contact.avatar}`}
                       alt=""
                     />
@@ -69,20 +69,22 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
               darkMode && "text-white"
             } flex justify-center items-center gap-2`}
           >
-            <div className="p-1">
+            <div className="p-1 flex flex-col items-center gap-2 sm:flex-row">
               <img
-                className="h-20 w-20 p-1"
+                className="h-10 w-10 sm:h-20 sm:w-20 p-1"
                 src={`data:image/svg+xml;base64,${currentUser.avatar}`}
                 alt=""
               />
+              <h3>{currentUser.username}</h3>
             </div>
-            <h3>{currentUser.username}</h3>
           </div>
           <div
             className={`bottom-1 flex items-center gap-2 cursor-pointer `}
             onClick={logoutUser}
           >
-            <span className={`${darkMode ? "text-white" : "text-slate-700"} `}>
+            <span
+              className={`${darkMode ? "text-white" : "text-slate-700"} my-2`}
+            >
               logout
             </span>
             <button

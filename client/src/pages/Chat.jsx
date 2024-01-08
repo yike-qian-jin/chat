@@ -42,7 +42,7 @@ function Chat() {
         <h3 className={`${darkMode && "text-white"}`}>Chat</h3>
       </div>
       <div
-        className={`max-w-4xl mx-auto mt-6 flex rounded-md p-2 ${
+        className={`max-w-4xl mx-auto mt-6 flex flex-col sm:flex-row rounded-md p-2 ${
           darkMode ? "bg-zinc-800" : "bg-slate-100"
         }`}
       >
