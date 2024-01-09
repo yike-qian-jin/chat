@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import userRouter from "./routes/user.route.js";
 import messageRouter from "./routes/message.route.js";
 import { Server } from "socket.io";
+import path from "path";
 
 dotenv.config();
 const app = express();
@@ -19,8 +20,16 @@ const server = app.listen(process.env.PORT, async () => {
     console.log(`listening on port ${process.env.PORT}`)
 })
 
+const __dirname = path.resolve();
+
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+})
 
 
 const io = new Server(server, {
