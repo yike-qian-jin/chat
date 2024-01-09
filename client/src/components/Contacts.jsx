@@ -33,12 +33,12 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
     <>
       {currentUsername && currentUserAvatar && (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-row sm:flex-col overflow-auto gap-2 max-h-[400px] flex-wrap">
+          <div className="flex flex-row sm:flex-col flex-wrap sm:flex-nowrap overflow-auto gap-2 max-h-[400px]">
             {contacts.map((contact, index) => {
               return (
                 <div
                   key={index}
-                  className={`flex flex-row sm:flex-col items-center rounded-lg cursor-pointer max-w-[200px] ${
+                  className={`flex flex-row  items-center rounded-lg cursor-pointer max-w-[200px] ${
                     darkMode ? "bg-zinc-700" : "bg-slate-300"
                   } ${
                     index === currentSelected &&
