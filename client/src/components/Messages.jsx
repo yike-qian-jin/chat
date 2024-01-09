@@ -1,5 +1,3 @@
-import React from "react";
-
 function Messages() {
   return <div className="min-h-[420px]">Messages</div>;
 }

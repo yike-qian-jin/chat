@@ -1,13 +1,14 @@
 import Contacts from "../components/Contacts";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { allUsersRoute } from "../utils/ApiRoutes";
+import { allUsersRoute, host } from "../utils/ApiRoutes";
 import { useNavigate } from "react-router-dom";
 import DarkMode from "../components/DarkMode";
 import Logo from "../utils/chitchat.avif";
 import Welcome from "../components/Welcome";
 import ChatContainer from "../components/ChatContainer";
+import { io } from "socket.io-client";
 
 function Chat() {
   const [contacts, setContacts] = useState([]);
@@ -15,6 +16,7 @@ function Chat() {
   const { darkMode } = useSelector((state) => state.theme);
   const [currentChat, setCurrentChat] = useState(undefined);
   const navigate = useNavigate();
+  const socket = useRef();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -25,6 +27,13 @@ function Chat() {
     };
     fetchContacts();
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io(host);
+      socket.current.emit("add-user", currentUser._id);
+    }
+  }, [currentUser]);
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
@@ -55,7 +64,12 @@ function Chat() {
         {currentChat === undefined ? (
           <Welcome currentUser={currentUser} darkMode={darkMode} />
         ) : (
-          <ChatContainer currentChat={currentChat} darkMode={darkMode} />
+          <ChatContainer
+            currentChat={currentChat}
+            darkMode={darkMode}
+            currentUser={currentUser}
+            socket={socket}
+          />
         )}
       </div>
     </div>

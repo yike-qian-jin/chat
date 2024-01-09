@@ -75,7 +75,11 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
                 src={`data:image/svg+xml;base64,${currentUser.avatar}`}
                 alt=""
               />
-              <h3>{currentUser.username}</h3>
+              <h3
+                className={`${darkMode ? "text-white" : "text-slate-700"} my-2`}
+              >
+                {currentUser.username}
+              </h3>
             </div>
           </div>
           <div

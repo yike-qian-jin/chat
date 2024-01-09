@@ -30,3 +30,14 @@ Content-Type: application/json
 
 ### get all users
 GET http://localhost:3000/api/auth/allUsers/659873bea1331a04dd331148
+
+
+###add message
+POST http://localhost:3000/api/messages/add-message
+Content-Type: application/json
+
+{
+    "from" : "659977b9b82ee0749baf015f",
+    "to" : "659977d7b82ee0749baf0166",
+    "message" : "hi"
+}
