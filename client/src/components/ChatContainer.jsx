@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import ChatInput from "./ChatInput";
-import Messages from "./Messages";
 import axios from "axios";
 import { getAllMessagesRoute, sendMessageRoute } from "../utils/ApiRoutes";
 import { useEffect, useRef, useState } from "react";
 
 function ChatContainer({ currentChat, darkMode, currentUser, socket }) {
+  console.log(socket);
   const [messages, setMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const scrollRef = useRef();
@@ -127,6 +127,7 @@ ChatContainer.propTypes = {
     _id: PropTypes.string,
   }),
   darkMode: PropTypes.bool,
+  socket: PropTypes.object,
 };
 
 export default ChatContainer;
