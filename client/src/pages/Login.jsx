@@ -41,7 +41,7 @@ function Login() {
           return;
         }
         dispatch(signIn(data));
-        if (currentUser.avatar.length > 0) {
+        if (currentUser?.avatar.length > 0) {
           navigate("/");
         } else {
           navigate("/setAvatar");
