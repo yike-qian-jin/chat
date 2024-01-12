@@ -17,6 +17,7 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState(undefined);
   const navigate = useNavigate();
   const socket = useRef();
+  const [userStatus, setUserStatus] = useState({});
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -30,8 +31,13 @@ function Chat() {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io(host);
+      socket.current = io(host, {
+        query: { userId: currentUser._id },
+      });
       socket.current.emit("add-user", currentUser._id);
+      socket.current.on("userStatus", (status) => {
+        setUserStatus(status);
+      });
     }
   }, [currentUser]);
 
@@ -39,9 +45,25 @@ function Chat() {
     setCurrentChat(chat);
   };
 
+  // const disconnectSocket = () => {
+  //   if (socket.current) {
+  //     socket.current.disconnect();
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   socket.current.on("disconnect", () => {
+  //     const newArr = Object.keys(userStatus).filter(
+  //       (dcCurrentUser) => dcCurrentUser !== currentUser._id
+  //     );
+  //     console.log(newArr);
+  //   });
+  // });
+
   return (
     <div className={`min-h-screen ${darkMode ? "bg-zinc-900" : "bg-white"}`}>
       <DarkMode />
+      {/* <button onClick={disconnectSocket}>dc</button> */}
       <div className="flex items-center justify-center gap-4">
         <img
           src={Logo}
@@ -60,6 +82,7 @@ function Chat() {
           currentUser={currentUser}
           darkMode={darkMode}
           changeChat={handleChatChange}
+          userStatus={userStatus}
         />
         {currentChat === undefined ? (
           <Welcome currentUser={currentUser} darkMode={darkMode} />

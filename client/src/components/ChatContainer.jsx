@@ -28,11 +28,11 @@ function ChatContainer({ currentChat, darkMode, currentUser, socket }) {
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("message received", (msg) => {
+      socket.current.on("message-received", (msg) => {
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);

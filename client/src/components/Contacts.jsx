@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
-function Contacts({ contacts, currentUser, darkMode, changeChat }) {
+function Contacts({ contacts, currentUser, darkMode, changeChat, userStatus }) {
   const [currentUsername, setCurrentUsername] = useState(undefined);
   const [currentUserAvatar, setCurrentUserAvatar] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -35,6 +35,9 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
         <div className="flex flex-col gap-4">
           <div className="flex flex-row sm:flex-col flex-wrap sm:flex-nowrap overflow-auto gap-2 max-h-[400px]">
             {contacts.map((contact, index) => {
+              const isUserOnline = Object.keys(userStatus).includes(
+                contact._id
+              );
               return (
                 <div
                   key={index}
@@ -53,13 +56,20 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
                       alt=""
                     />
                   </div>
-                  <h3
-                    className={`${
+                  <div
+                    className={`flex flex-col ${
                       darkMode ? "text-white" : "text-slate-700"
                     } p-1`}
                   >
-                    {contact.username}
-                  </h3>
+                    <h3>{contact.username}</h3>
+                    <p
+                      className={`text-sm  ${
+                        isUserOnline ? "text-green-600" : "text-red-500"
+                      }`}
+                    >
+                      {isUserOnline ? "Online" : "Offline"}
+                    </p>
+                  </div>
                 </div>
               );
             })}
@@ -108,11 +118,13 @@ function Contacts({ contacts, currentUser, darkMode, changeChat }) {
 Contacts.propTypes = {
   contacts: PropTypes.array,
   currentUser: PropTypes.shape({
+    _id: PropTypes.string,
     avatar: PropTypes.string,
     username: PropTypes.string,
   }),
   darkMode: PropTypes.bool,
   changeChat: PropTypes.func,
+  userStatus: PropTypes.object,
 };
 
 export default Contacts;
