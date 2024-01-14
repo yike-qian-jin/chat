@@ -35,8 +35,9 @@ function Chat() {
         query: { userId: currentUser._id },
       });
       socket.current.emit("add-user", currentUser._id);
-      socket.current.on("userStatus", (status) => {
-        setUserStatus(status);
+      socket.current.on("userStatus", (onlineUsers) => {
+        setUserStatus(onlineUsers);
+        console.log(onlineUsers);
       });
     }
   }, [currentUser]);
@@ -83,6 +84,7 @@ function Chat() {
           darkMode={darkMode}
           changeChat={handleChatChange}
           userStatus={userStatus}
+          socket={socket}
         />
         {currentChat === undefined ? (
           <Welcome currentUser={currentUser} darkMode={darkMode} />

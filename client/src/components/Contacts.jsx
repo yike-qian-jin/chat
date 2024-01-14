@@ -5,7 +5,14 @@ import { useDispatch } from "react-redux";
 import { logout } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
-function Contacts({ contacts, currentUser, darkMode, changeChat, userStatus }) {
+function Contacts({
+  contacts,
+  currentUser,
+  darkMode,
+  changeChat,
+  userStatus,
+  socket,
+}) {
   const [currentUsername, setCurrentUsername] = useState(undefined);
   const [currentUserAvatar, setCurrentUserAvatar] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -25,9 +32,22 @@ function Contacts({ contacts, currentUser, darkMode, changeChat, userStatus }) {
   };
 
   const logoutUser = () => {
+    if (socket.current) {
+      socket.current.disconnect();
+    }
+
+    socket.current.on("disconnect", () => {
+      const newArr = Object.keys(userStatus).filter(
+        (dcCurrentUser) => dcCurrentUser !== currentUser._id
+      );
+      console.log(newArr);
+    });
+
     dispatch(logout());
     navigate("/login");
   };
+
+  console.log(userStatus);
 
   return (
     <>
@@ -125,6 +145,7 @@ Contacts.propTypes = {
   darkMode: PropTypes.bool,
   changeChat: PropTypes.func,
   userStatus: PropTypes.object,
+  socket: PropTypes.object,
 };
 
 export default Contacts;

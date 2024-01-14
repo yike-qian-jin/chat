@@ -9,7 +9,6 @@ import path from "path";
 
 dotenv.config();
 const app = express();
-const userStatus = {};
 
 
 app.use(express.json());
@@ -41,15 +40,18 @@ const io = new Server(server, {
     },
 });
 
+const userStatus = {};
+let onlineUsers = new Map();
 
-global.onlineUsers = new Map();
 io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
+    // onlineUsers.set(userId, "online");
+    // io.emit('userStatus', onlineUsers);
     userStatus[userId] = "online"
-    socket.emit('userStatus', userStatus);
+    io.emit('userStatus', userStatus);
+    console.log(userStatus);
 
 
-    global.chatSocket = socket;
     socket.on("add-user", (userId) => {
         onlineUsers.set(userId, socket.id);
     });
@@ -59,13 +61,47 @@ io.on("connection", (socket) => {
         if (sendUserSocket) {
             socket.to(sendUserSocket).emit("message-received", data.message);
         }
-    })
+    });
 
     socket.on('disconnect', () => {
-        userStatus[userId] = 'offline';
+        // onlineUsers.delete(userId);
+        // io.emit('userStatus', onlineUsers);
+        delete userStatus[userId];
         io.emit('userStatus', userStatus);
+        console.log(userStatus);
     });
-})
+});
+
+
+
+// const onlineUsers = {};
+
+// io.on("connection", (socket) => {
+//     const userId = socket.handshake.query.userId;
+//     onlineUsers[userId] = "online";
+//     io.emit('onlineUsers', onlineUsers);
+//     console.log(onlineUsers);
+//     socket.emit('userStatus', onlineUsers);
+
+
+//     global.chatSocket = socket;
+//     socket.on("add-user", (userId) => {
+//         onlineUsers[userId];
+//     });
+
+//     socket.on("send-message", (data) => {
+//         const sendUserSocket = onlineUsers[data.to];
+//         if (sendUserSocket) {
+//             socket.to(sendUserSocket).emit("message-received", data.message);
+//         }
+//     })
+
+//     socket.on('disconnect', () => {
+//         onlineUsers[userId] = "offline";
+//         io.emit('onlineUsers', onlineUsers);
+//         console.log('User disconnected:', socket.id);
+//     });
+// })
 
 
 app.use((err, req, res, next) => {

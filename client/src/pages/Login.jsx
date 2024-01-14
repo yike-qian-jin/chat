@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRoute } from "../utils/ApiRoutes";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn, updateUserStatusOnline } from "../redux/user/userSlice";
+import { signIn } from "../redux/user/userSlice";
 import DarkMode from "../components/DarkMode";
 
 function Login() {
@@ -43,16 +43,6 @@ function Login() {
         dispatch(signIn(data));
         if (currentUser?.avatar.length > 0) {
           navigate("/");
-          if (currentUser?._id) {
-            setTimeout(() => {
-              dispatch(
-                updateUserStatusOnline({
-                  userId: currentUser._id,
-                  status: "Online",
-                })
-              );
-            }, 2000);
-          }
         } else {
           navigate("/setAvatar");
         }
