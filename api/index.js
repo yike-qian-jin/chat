@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
     // io.emit('userStatus', onlineUsers);
     userStatus[userId] = "online"
     io.emit('userStatus', userStatus);
-    console.log(userStatus);
+    // console.log(userStatus);
 
 
     socket.on("add-user", (userId) => {
@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
         // io.emit('userStatus', onlineUsers);
         delete userStatus[userId];
         io.emit('userStatus', userStatus);
-        console.log(userStatus);
+        // console.log(userStatus);
     });
 });
 

@@ -37,7 +37,6 @@ function Chat() {
       socket.current.emit("add-user", currentUser._id);
       socket.current.on("userStatus", (onlineUsers) => {
         setUserStatus(onlineUsers);
-        console.log(onlineUsers);
       });
     }
   }, [currentUser]);

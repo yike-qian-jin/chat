@@ -36,18 +36,18 @@ function Contacts({
       socket.current.disconnect();
     }
 
-    socket.current.on("disconnect", () => {
-      const newArr = Object.keys(userStatus).filter(
-        (dcCurrentUser) => dcCurrentUser !== currentUser._id
-      );
-      console.log(newArr);
-    });
+    // socket.current.on("disconnect", () => {
+    //   const newArr = Object.keys(userStatus).filter(
+    //     (dcCurrentUser) => dcCurrentUser !== currentUser._id
+    //   );
+    //   console.log(newArr);
+    // });
 
     dispatch(logout());
     navigate("/login");
   };
 
-  console.log(userStatus);
+  // console.log(userStatus);
 
   return (
     <>
