@@ -34,8 +34,8 @@ app.get("*", (req, res) => {
 
 const io = new Server(server, {
     cors: {
-        // origin: "http://localhost:5173",
-        origin: "https://chat1-co3i.onrender.com",
+        origin: "http://localhost:5173",
+        // origin: "https://chat1-co3i.onrender.com",
         methods: ["GET", "POST"],
         credentials: true,
     },
@@ -60,7 +60,8 @@ io.on("connection", (socket) => {
     socket.on("send-message", (data) => {
         const sendUserSocket = onlineUsers.get(data.to);
         if (sendUserSocket) {
-            socket.to(sendUserSocket).emit("message-received", data.message);
+            // socket.to(sendUserSocket).emit("message-received", data.message);
+            socket.to(sendUserSocket).emit("message-received", data);
         }
     });
 
@@ -73,36 +74,6 @@ io.on("connection", (socket) => {
     });
 });
 
-
-
-// const onlineUsers = {};
-
-// io.on("connection", (socket) => {
-//     const userId = socket.handshake.query.userId;
-//     onlineUsers[userId] = "online";
-//     io.emit('onlineUsers', onlineUsers);
-//     console.log(onlineUsers);
-//     socket.emit('userStatus', onlineUsers);
-
-
-//     global.chatSocket = socket;
-//     socket.on("add-user", (userId) => {
-//         onlineUsers[userId];
-//     });
-
-//     socket.on("send-message", (data) => {
-//         const sendUserSocket = onlineUsers[data.to];
-//         if (sendUserSocket) {
-//             socket.to(sendUserSocket).emit("message-received", data.message);
-//         }
-//     })
-
-//     socket.on('disconnect', () => {
-//         onlineUsers[userId] = "offline";
-//         io.emit('onlineUsers', onlineUsers);
-//         console.log('User disconnected:', socket.id);
-//     });
-// })
 
 
 app.use((err, req, res, next) => {

@@ -51,7 +51,7 @@ export const setAvatar = async (req, res, next) => {
 }
 
 
-export const getAllUsers = async (req, res, next) => {
+export const getUserById = async (req, res, next) => {
     try {
         const allUsers = await User.find({ _id: { $ne: req.params.id } }).select([
             "email",
@@ -60,6 +60,16 @@ export const getAllUsers = async (req, res, next) => {
             "_id"
         ])
         return res.status(201).json(allUsers);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+export const getAllUsers = async (req, res, next) => {
+    try {
+        const allUsers = await User.find().select("username");
+        res.status(201).json(allUsers);
     } catch (error) {
         next(error);
     }

@@ -12,6 +12,8 @@ function Contacts({
   changeChat,
   userStatus,
   socket,
+  unreadMessagesCount,
+  allUsers,
 }) {
   const [currentUsername, setCurrentUsername] = useState(undefined);
   const [currentUserAvatar, setCurrentUserAvatar] = useState(undefined);
@@ -61,7 +63,7 @@ function Contacts({
               return (
                 <div
                   key={index}
-                  className={`flex flex-row  items-center rounded-lg cursor-pointer max-w-[200px] ${
+                  className={`relative flex flex-row items-center rounded-lg cursor-pointer max-w-[200px] ${
                     darkMode ? "bg-zinc-700" : "bg-slate-300"
                   } ${
                     index === currentSelected &&
@@ -69,6 +71,18 @@ function Contacts({
                   }`}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
+                  {/* {allUsers.forEach((element) => {
+                    if (Object.keys(unreadMessagesCount) == element._id) {
+                      return (
+                        <div className="p-3 flex items-center justify-center absolute bg-red-500 top-[-10px] right-0 rounded-full h-4 w-4 text-white">
+                          2
+                        </div>
+                      );
+                    }
+                  })} */}
+                  {/* <p className="p-3 flex items-center justify-center absolute bg-red-500 top-[-10px] right-0 rounded-full h-4 w-4 text-white">
+                    25
+                  </p> */}
                   <div>
                     <img
                       className="h-10 w-10 sm:h-20 sm:w-20 p-1"

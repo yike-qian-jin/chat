@@ -1,11 +1,12 @@
 import express from "express"
-import { getAllUsers, login, register, setAvatar } from "../controllers/user.controller.js";
+import { getUserById, login, register, setAvatar, getAllUsers } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
 router.post("/setAvatar/:id", setAvatar);
-router.get("/allUsers/:id", getAllUsers);
+router.get("/allUsers/:id", getUserById);
+router.get("/allUsers", getAllUsers);
 
 export default router;

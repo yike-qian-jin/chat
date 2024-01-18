@@ -18,6 +18,8 @@ function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
   const [userStatus, setUserStatus] = useState({});
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState({});
+  const [allUsers, setAllusers] = useState([]);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -40,6 +42,50 @@ function Chat() {
       });
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (socket.current) {
+      const getAllUsers = async () => {
+        try {
+          const res = await fetch(allUsersRoute);
+          const data = await res.json();
+          return new Promise((resolve, reject) => {
+            resolve(data);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getAllUsers().then((data) => setAllusers(data));
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    if (allUsers.length > 0) {
+      socket.current.on("message-received", (data) => {
+        if (data) {
+          allUsers.forEach((element) => {
+            if (element._id === data.from) {
+              setUnreadMessagesCount((prev) => ({
+                ...prev,
+                [data.from]: (prev[data.from] || 0) + 1,
+              }));
+            }
+          });
+        }
+        // console.log(data);
+      });
+    }
+  }, [allUsers]);
+
+  // console.log(Object.keys(unreadMessagesCount).toString());
+  allUsers.forEach((element) => {
+    if (Object.keys(unreadMessagesCount).toString() == element._id) {
+      console.log("equal", element._id, Object.keys(unreadMessagesCount));
+    } else {
+      console.log("not");
+    }
+  });
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
@@ -84,6 +130,8 @@ function Chat() {
           changeChat={handleChatChange}
           userStatus={userStatus}
           socket={socket}
+          unreadMessagesCount={unreadMessagesCount}
+          allUsers={allUsers}
         />
         {currentChat === undefined ? (
           <Welcome currentUser={currentUser} darkMode={darkMode} />

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 function ChatContainer({ currentChat, darkMode, currentUser, socket }) {
   const [messages, setMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  // const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
   const scrollRef = useRef();
 
   const handleSendMessage = async (msg) => {
@@ -29,7 +30,8 @@ function ChatContainer({ currentChat, darkMode, currentUser, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("message-received", (msg) => {
-        setArrivalMessage({ fromSelf: false, message: msg });
+        setArrivalMessage({ fromSelf: false, message: msg.message });
+        // setUnreadMessagesCount((prevCount) => prevCount + 1);
       });
     }
   }, [socket]);
