@@ -49,7 +49,7 @@ function Chat() {
         try {
           const res = await fetch(allUsersRoute);
           const data = await res.json();
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
             resolve(data);
           });
         } catch (error) {
@@ -79,16 +79,25 @@ function Chat() {
   }, [allUsers]);
 
   // console.log(Object.keys(unreadMessagesCount).toString());
-  allUsers.forEach((element) => {
-    if (Object.keys(unreadMessagesCount).toString() == element._id) {
-      console.log("equal", element._id, Object.keys(unreadMessagesCount));
-    } else {
-      console.log("not");
-    }
-  });
+  // allUsers.forEach((element) => {
+  //   if (Object.keys(unreadMessagesCount).toString() == element._id) {
+  //     console.log("equal", element._id, Object.keys(unreadMessagesCount));
+  //   } else {
+  //     console.log("not");
+  //   }
+  // });
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
+  };
+
+  const resetUnreadCount = (chatId) => {
+    // Reset the unread message count for the given chatId
+    setUnreadMessagesCount((prevCount) => {
+      const updatedCount = { ...prevCount };
+      delete updatedCount[chatId];
+      return updatedCount;
+    });
   };
 
   // const disconnectSocket = () => {
@@ -131,7 +140,7 @@ function Chat() {
           userStatus={userStatus}
           socket={socket}
           unreadMessagesCount={unreadMessagesCount}
-          allUsers={allUsers}
+          resetUnreadCount={resetUnreadCount}
         />
         {currentChat === undefined ? (
           <Welcome currentUser={currentUser} darkMode={darkMode} />

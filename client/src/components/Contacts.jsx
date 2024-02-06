@@ -13,7 +13,7 @@ function Contacts({
   userStatus,
   socket,
   unreadMessagesCount,
-  allUsers,
+  resetUnreadCount,
 }) {
   const [currentUsername, setCurrentUsername] = useState(undefined);
   const [currentUserAvatar, setCurrentUserAvatar] = useState(undefined);
@@ -31,6 +31,7 @@ function Contacts({
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
+    resetUnreadCount(contact._id);
   };
 
   const logoutUser = () => {
@@ -60,6 +61,7 @@ function Contacts({
               const isUserOnline = Object.keys(userStatus).includes(
                 contact._id
               );
+              const unreadCount = unreadMessagesCount[contact._id];
               return (
                 <div
                   key={index}
@@ -71,15 +73,11 @@ function Contacts({
                   }`}
                   onClick={() => changeCurrentChat(index, contact)}
                 >
-                  {/* {allUsers.forEach((element) => {
-                    if (Object.keys(unreadMessagesCount) == element._id) {
-                      return (
-                        <div className="p-3 flex items-center justify-center absolute bg-red-500 top-[-10px] right-0 rounded-full h-4 w-4 text-white">
-                          2
-                        </div>
-                      );
-                    }
-                  })} */}
+                  {unreadCount && (
+                    <div className="text-xs p-[8px] flex items-center justify-center absolute bg-red-500 top-[-0px] right-0 rounded-full h-4 w-4 text-white">
+                      {unreadCount}
+                    </div>
+                  )}
                   {/* <p className="p-3 flex items-center justify-center absolute bg-red-500 top-[-10px] right-0 rounded-full h-4 w-4 text-white">
                     25
                   </p> */}
@@ -160,6 +158,8 @@ Contacts.propTypes = {
   changeChat: PropTypes.func,
   userStatus: PropTypes.object,
   socket: PropTypes.object,
+  resetUnreadCount: PropTypes.func,
+  unreadMessagesCount: PropTypes.object,
 };
 
 export default Contacts;
